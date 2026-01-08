@@ -13,17 +13,27 @@ If you need >30 days of data and have Sentinel, use the Sentinel workbook direct
 
 Note: Power BI has no native Microsoft Graph connector; Web.Contents requires application permissions (delegated auth is not supported for this flow).
 
+### Quick Architecture Summary
+
+**For manual Desktop refresh:** 📱 Power BI Desktop → 🔌 Custom Connector → 🔑 Azure Key Vault → 🔐 App Secret → 📊 Graph API (Advanced Hunting) → 📈 MDO Data
+
+
+**For scheduled refresh:** Power BI Service → 🌐 On-premises Gateway → (same flow)
+
+
 ## 🔒 Security
 *   **No Hardcoded Secrets**: Client Secrets stay in Key Vault.
 *   **Least Privilege**: The Gateway only needs `Get` permission on the specific Secret, and `SecurityEvents.Read.All` on the Graph API.
 
-## 🛠️ Components
+## 📁 Repository Contents
 
-### 1. KeyVaultConnector.mez (The Custom Connector)
-A custom connector that facilitates secure communication with Azure Key Vault to retrieve the app secret.
-
-### 2. Microsoft Defender for Office 365 Detection and Insights_v3.pbit (The Template Report)
-The template report that uses the custom connector to retrieve the app secret and execute the KQL queries to retrieve the data necessary to build a MDO KPI dashboard.
+| File | Description |
+|------|-------------|
+| `KeyVaultConnector.mez` | Custom Power BI connector for Azure Key Vault authentication |
+| `Microsoft Defender for Office 365 Detection and Insights_v3.pbit` | Power BI template report |
+| `GatewayDeployment.md` | Step-by-step guide for gateway deployment and scheduled refresh |
+| `readme.md` | This file |
+| `Images/` | Screenshots referenced in this documentation |
 
 ## Before you begin (values you’ll need)
 
@@ -76,20 +86,29 @@ The template report that uses the custom connector to retrieve the app secret an
    ![variable setup](Images/3templatevariables.png)
 3) When prompted by the Azure Key Vault connector, sign in with a user that has access to the secret.  
    ![login](Images/4connectorpopup.png)
-4) If a login.microsoftonline.com dialog appears, select “Anonymous” to proceed (required by the Web.Contents step).  
+4. If a `login.microsoftonline.com` or `graph.microsoft.com` dialog appears, select **"Anonymous"** connection to proceed.  
+   *(This is expected behavior: the custom connector handles OAuth internally; Power BI's Web.Contents step doesn't need additional auth here.)*
    ![auth](Images/6authpopup.png)
+
+   The only prompt requiring true Organizational account authentication is through the Azure Key Vault, to get the app secret.
+   ![connectionconnector](Images/connectionconnector.png)
+
+    You can also manually set the credentials in Power BI, in the Data Source Settings:
+   ![credentialsettings](Images/credentialsettings.png)
 5) After loading completes, you’ll see the report:  
    ![done](Images/7overview.png)
    ![done2](Images/7overview2.png)
 
-## Publish and scheduled refresh
+## 🌐 Publish and scheduled refresh
 
 You can publish the report to the Power BI Service to share it.
 
-For scheduled refresh, a data gateway is required because the report uses a custom connector (for Key Vault). Configure the gateway and set refresh per:
-[Data refresh in Power BI](https://learn.microsoft.com/en-us/power-bi/connect-data/refresh-data#connecting-to-on-premises-data-sources)
+> **⚠️ Important for Scheduled Refresh:**  
+> This template requires an **On-premises Data Gateway** for scheduled refresh because it uses a custom connector.  
+> 
+> 📘 **See the complete guide:** [Gateway Deployment Guide](./GatewayDeployment.md)
 
-Context for this particular template here: [GatewayDeployment.md](GatewayDeployment.md)
+For general information on Power BI data refresh: [Data refresh in Power BI](https://learn.microsoft.com/en-us/power-bi/connect-data/refresh-data#connecting-to-on-premises-data-sources)
 
 ## 🔧 Troubleshooting (quick checks)
 
@@ -97,3 +116,9 @@ Context for this particular template here: [GatewayDeployment.md](GatewayDeploym
 - Key Vault access denied: Verify firewall/network and that your user has Key Vault Secrets User.
 - Connector not found: Re-check custom connector setup and security settings in Power BI Desktop.
 - Extra auth prompt: Choosing Anonymous for login.microsoftonline.com is expected for Web.Contents.
+
+
+---
+**Last Updated:** January 2026  
+**Tested with:** Power BI Desktop (January 2026), On-premises Data Gateway (Standard Mode)  
+**Author:** [Iustin Irimia/Security CSA] [Daniel Mozes/CxE MDO PM]
