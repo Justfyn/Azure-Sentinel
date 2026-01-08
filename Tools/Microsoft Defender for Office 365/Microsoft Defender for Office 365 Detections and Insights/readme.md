@@ -8,19 +8,31 @@ This template enables Defender for Office 365 reporting in Power BI for customer
 - Data scope: Up to 30 days, via Microsoft Graph Advanced Hunting.
 - How it works: Power BI calls the Graph Security API (Advanced Hunting) using Web.Contents with application permissions. The app secret is stored and retrieved from Azure Key Vault via a custom connector.
 
-If you need >30 days of data and have Sentinel, use the workbook directly:
+If you need >30 days of data and have Sentinel, use the Sentinel workbook directly:
 [Build custom email security reports and dashboards with workbooks in Microsoft Sentinel](https://techcommunity.microsoft.com/blog/microsoftdefenderforoffice365blog/part-2-build-custom-email-security-reports-and-dashboards-with-workbooks-in-micr/4411303)
 
 Note: Power BI has no native Microsoft Graph connector; Web.Contents requires application permissions (delegated auth is not supported for this flow).
 
+## 🔒 Security
+*   **No Hardcoded Secrets**: Client Secrets stay in Key Vault.
+*   **Least Privilege**: The Gateway only needs `Get` permission on the specific Secret, and `SecurityEvents.Read.All` on the Graph API.
+
+## 🛠️ Components
+
+### 1. KeyVaultConnector.mez (The Custom Connector)
+A custom connector that facilitates secure communication with Azure Key Vault to retrieve the app secret.
+
+### 2. Microsoft Defender for Office 365 Detection and Insights_v3.pbit (The Template Report)
+The template report that uses the custom connector to retrieve the app secret and execute the KQL queries to retrieve the data necessary to build a MDO KPI dashboard.
+
 ## Before you begin (values you’ll need)
 
-- Application (client) ID
-- Directory (tenant) ID
-- Azure Key Vault name
-- Key Vault secret name (that contains the app secret)
+- Application (client) ID - (`GUID`)
+- Directory (tenant) ID - (`GUID`)
+- Azure Key Vault Url - (e.g. `https://myvault.vault.azure.net`)
+- Key Vault secret name (that contains the app secret) - (e.g. `myappsecret`)
 
-## Prerequisites
+## 📦 Prerequisites
 
 1) Register an app with application permission
 - [Set up an application](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app) and note Application ID and Directory (tenant) ID.  
@@ -33,10 +45,10 @@ Note: Power BI has no native Microsoft Graph connector; Web.Contents requires ap
 2) Prepare Azure Key Vault
 - Create or use an existing Key Vault; note the Key Vault name. Click Import to add a secret.  
   ![keyvault registration first step](Images/keyvault1.png)
-- Ensure Key Vault firewall/network settings allow your access to create/read the secret.  
-  ![keyvault registration second step](Images/keyvault3.png)
 - Add a new secret: choose a secret name (record it) and paste the app secret value.  
   ![keyvault registration third step](Images/keyvault2.png)
+- Ensure Key Vault firewall/network settings allow your access to create/read the secret.  
+  ![keyvault registration second step](Images/keyvault3.png)
 
 3) Grant access to the secret
 - In the secret’s Access control, grant users who will open/refresh the report at least Key Vault Secrets User.  
@@ -44,10 +56,13 @@ Note: Power BI has no native Microsoft Graph connector; Web.Contents requires ap
   ![keyvault registration fifth step](Images/keyvault5.png)
 
 4) Enable custom connector support in Power BI Desktop
-- Follow: [Connector extensibility in Power BI](https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-connector-extensibility#custom-connectors)  
-  ![connector setup](Images/1connector.png)
+- Follow: [Connector extensibility in Power BI](https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-connector-extensibility#custom-connectors) to deploy the connector:
+    *   Copy `KeyVaultConnector.mez` to `Documents\Power BI Desktop\Custom Connectors`.
+    *   Enable "Allow any extension..." in Power BI Options -> Security.
+    
+    ![connector setup](Images/1connector.png)
 
-## Setup (Power BI Desktop)
+## 📊 Setup (Power BI Desktop)
 
 1) Open the “Microsoft Defender for Office 365 Detections and Insights” template (.pbit).
 2) Enter variables and Load:
@@ -70,7 +85,9 @@ You can publish the report to the Power BI Service to share it.
 For scheduled refresh, a data gateway is required because the report uses a custom connector (for Key Vault). Configure the gateway and set refresh per:
 [Data refresh in Power BI](https://learn.microsoft.com/en-us/power-bi/connect-data/refresh-data#connecting-to-on-premises-data-sources)
 
-## Troubleshooting (quick checks)
+Context for this particular template here: [GatewayDeployment.md](GatewayDeployment.md)
+
+## 🔧 Troubleshooting (quick checks)
 
 - 403/401 on refresh: Confirm ThreatHunting.Read.All has admin consent and the app/secret are correct.
 - Key Vault access denied: Verify firewall/network and that your user has Key Vault Secrets User.
