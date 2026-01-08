@@ -35,23 +35,26 @@ The template report that uses the custom connector to retrieve the app secret an
 ## 📦 Prerequisites
 
 1) Register an app with application permission
-- [Set up an application](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app) and note Application ID and Directory (tenant) ID.  
+- [Set up an application](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app) and note the `Application ID` and `Directory (tenant) ID`.  
   ![app registration first step](Images/appregistration1.png)
+  ![app registration first step 2](Images/appdetails.png)
 - Add Graph application permission ThreatHunting.Read.All and grant admin consent.  
   ![app registration second step](Images/appregistration2.png)
-- Create a client secret (you’ll store this in Key Vault).  
+- Create a client secret (be carefull with the value as you’ll store this in Azure Key Vault).  
   ![app registration third step](Images/appregistration3.png)
 
 2) Prepare Azure Key Vault
-- Create or use an existing Key Vault; note the Key Vault name. Click Import to add a secret.  
-  ![keyvault registration first step](Images/keyvault1.png)
-- Add a new secret: choose a secret name (record it) and paste the app secret value.  
-  ![keyvault registration third step](Images/keyvault2.png)
-- Ensure Key Vault firewall/network settings allow your access to create/read the secret.  
+- Create or use an existing Key Vault; note the Key Vault Url.
+  ![keyvault registration first step](Images/keyvaulturl.png)
+- Ensure Key Vault firewall/network settings allow your access to create/read the secret.  (Notice the 2 options, with the second being the more secure but requiring the specific IP where the Secret will be read from and created in the first instance)
   ![keyvault registration second step](Images/keyvault3.png)
+- Click 'Generate/Import' to add a secret. Special permissions to create a secret are [required.](https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli#azure-built-in-roles-for-key-vault-data-plane-operations)  
+  ![keyvault registration first step 2](Images/keyvault1.png)
+- Add a new secret: choose a secret name (record it as it will be used in Power BI) and paste the app secret value.  
+  ![keyvault registration third step](Images/keyvault2.png)
 
 3) Grant access to the secret
-- In the secret’s Access control, grant users who will open/refresh the report at least Key Vault Secrets User.  
+- In the secret’s Access control, grant users who will open/refresh the report at least `Key Vault Secrets User`.  
   ![keyvault registration fourth step](Images/keyvault4.png)  
   ![keyvault registration fifth step](Images/keyvault5.png)
 
@@ -68,7 +71,7 @@ The template report that uses the custom connector to retrieve the app secret an
 2) Enter variables and Load:
    - Directory (tenant) ID
    - Application (client) ID
-   - Key Vault name
+   - Key Vault Url
    - Secret name (that holds the app secret)
    ![variable setup](Images/3templatevariables.png)
 3) When prompted by the Azure Key Vault connector, sign in with a user that has access to the secret.  
@@ -77,6 +80,7 @@ The template report that uses the custom connector to retrieve the app secret an
    ![auth](Images/6authpopup.png)
 5) After loading completes, you’ll see the report:  
    ![done](Images/7overview.png)
+   ![done2](Images/7overview2.png)
 
 ## Publish and scheduled refresh
 
