@@ -18,7 +18,7 @@ Note: Power BI has no native Microsoft Graph connector; Web.Contents requires ap
 **For manual Desktop refresh:** 📱 Power BI Desktop → 🔌 Custom Connector → 🔑 Azure Key Vault → 🔐 App Secret → 📊 Graph API (Advanced Hunting) → 📈 MDO Data
 
 
-**For scheduled refresh:** Power BI Service → 🌐 On-premises Gateway → (same flow)
+**For scheduled refresh:** ☁️ Power BI Service → 🌐 On-premises Gateway → (same flow)
 
 
 ## 🔒 Security
@@ -50,7 +50,7 @@ Note: Power BI has no native Microsoft Graph connector; Web.Contents requires ap
   ![app registration first step 2](Images/appdetails.png)
 - Add Graph application permission ThreatHunting.Read.All and grant admin consent.  
   ![app registration second step](Images/appregistration2.png)
-- Create a client secret (be carefull with the value as you’ll store this in Azure Key Vault).  
+- Create a client secret (be careful with the value as you’ll store this in Azure Key Vault).  
   ![app registration third step](Images/appregistration3.png)
 
 2) Prepare Azure Key Vault
