@@ -23,7 +23,7 @@ Note: Power BI has no native Microsoft Graph connector; Web.Contents requires ap
 
 ## 🔒 Security
 *   **No Hardcoded Secrets**: Client Secrets stay in Key Vault.
-*   **Least Privilege**: The Gateway only needs `Get` permission on the specific Secret, and `SecurityEvents.Read.All` on the Graph API.
+*   **Least Privilege**: The account used to configure/refresh the report only needs `Get` permission on the specific Key Vault Secret. And the application only needs `ThreatHunting.Read.All` permission on the Graph API.
 
 ## 📁 Repository Contents
 
