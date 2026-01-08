@@ -92,7 +92,7 @@ Note: Power BI has no native Microsoft Graph connector; Web.Contents requires ap
 
     You can also manually set the credentials in Power BI, in the Data Source Settings:
    ![credentialsettings](Images/credentialsettings.png)
-5) After loading completes, you’ll see the report:  
+5) After loading completes (it might take a few minutes for all the queries to complete), you’ll see the report:  
    ![done](Images/7overview.png)
    ![done2](Images/7overview2.png)
 
