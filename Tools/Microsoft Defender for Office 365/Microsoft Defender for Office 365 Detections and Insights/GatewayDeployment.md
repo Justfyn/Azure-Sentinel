@@ -93,3 +93,11 @@ Go to **Manage connections and gateways** > **New** and configure the following 
 
 ---
 *Deployment Complete. Your report will now securely fetch secrets via the gateway and refresh automatically.*
+
+## 🔧 Troubleshooting (quick checks)
+
+- **Gateway refresh fails with "unknown function" or "credential" errors:**  
+  - Ensure `KeyVaultConnector.mez` is deployed to the gateway machine (not just Desktop)
+  - Verify custom connectors are enabled in the gateway settings
+  - Check that all 3 connections (KeyVault, login.microsoftonline.com, graph.microsoft.com) are mapped in the dataset settings
+
