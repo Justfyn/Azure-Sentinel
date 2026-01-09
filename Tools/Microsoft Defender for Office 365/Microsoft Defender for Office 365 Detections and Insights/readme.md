@@ -90,9 +90,6 @@ Note: Power BI has no native Microsoft Graph connector; Web.Contents requires ap
    *(This is expected behavior: the custom connector handles OAuth internally; Power BI's Web.Contents step doesn't need additional auth here.)*
    ![auth](Images/6authpopup.png)
 
-   The only prompt requiring true Organizational account authentication is through the Azure Key Vault, to get the app secret.
-   ![connectionconnector](Images/connectionconnector.png)
-
     You can also manually set the credentials in Power BI, in the Data Source Settings:
    ![credentialsettings](Images/credentialsettings.png)
 5) After loading completes, you’ll see the report:  
