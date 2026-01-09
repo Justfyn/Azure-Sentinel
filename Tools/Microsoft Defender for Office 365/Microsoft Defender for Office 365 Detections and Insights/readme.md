@@ -54,16 +54,16 @@ Note: Power BI has no native Microsoft Graph connector; Web.Contents requires ap
   ![app registration third step](Images/appregistration3.png)
 
 2) Prepare Azure Key Vault
-- Create or use an existing Key Vault; note the Key Vault Url.
+- [Create](https://learn.microsoft.com/en-us/azure/key-vault/general/quick-create-portal) or use an existing Key Vault; note the Key Vault Url.
   ![keyvault registration first step](Images/keyvaulturl.png)
 - Ensure Key Vault firewall/network settings allow your access to create/read the secret.  (Notice the 2 options, with the second being the more secure but requiring the specific IP where the Secret will be read from and created in the first instance)
   ![keyvault registration second step](Images/keyvault3.png)
-- Click 'Generate/Import' to add a secret. Special permissions to create a secret are [required.](https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli#azure-built-in-roles-for-key-vault-data-plane-operations)  
+- [Click 'Generate/Import' to add a secret.](https://learn.microsoft.com/en-us/azure/key-vault/secrets/quick-create-portal) Special permissions to create a secret are [required.](https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-cli#azure-built-in-roles-for-key-vault-data-plane-operations)  
   ![keyvault registration first step 2](Images/keyvault1.png)
 - Add a new secret: choose a secret name (record it as it will be used in Power BI) and paste the app secret value.  
   ![keyvault registration third step](Images/keyvault2.png)
 
-3) Grant access to the secret
+3) [Grant access to the secret](https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide?tabs=azure-portal)
 - In the secret’s Access control, grant users who will open/refresh the report at least `Key Vault Secrets User`.  
   ![keyvault registration fourth step](Images/keyvault4.png)  
   ![keyvault registration fifth step](Images/keyvault5.png)
@@ -90,9 +90,12 @@ Note: Power BI has no native Microsoft Graph connector; Web.Contents requires ap
    *(This is expected behavior: the custom connector handles OAuth internally; Power BI's Web.Contents step doesn't need additional auth here.)*
    ![auth](Images/6authpopup.png)
 
+   The only prompt requiring true Organizational account authentication is through the Azure Key Vault, to get the app secret.
+   ![connectionconnector](Images/connectionconnector.png)
+
     You can also manually set the credentials in Power BI, in the Data Source Settings:
    ![credentialsettings](Images/credentialsettings.png)
-5) After loading completes (it might take a few minutes for all the queries to complete), you’ll see the report:  
+5) After loading completes, you’ll see the report:  
    ![done](Images/7overview.png)
    ![done2](Images/7overview2.png)
 
