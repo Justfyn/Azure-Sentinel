@@ -42,7 +42,7 @@ For more information, see: [Reports API overview for attack simulation training]
 
 ## 📦 Prerequisites & Setup
 
-> **This template uses the same custom connector as the [Microsoft Defender for Office 365 Detections and Insights](../1.%20Microsoft%20Defender%20for%20Office%20365%20Detections%20and%20Insights/README.md) template.**
+> **This template uses the same custom connector as the [Microsoft Defender for Office 365 Detections and Insights](<../1. Microsoft Defender for Office 365 Detections and Insights/README.md>) template.**
 >
 > Follow the complete setup guide in that folder for:
 > - Custom connector installation (`KeyVaultConnector.mez`)
@@ -66,7 +66,7 @@ When registering your Entra ID application, use the following permission instead
 
 ## 📊 Setup (Power BI Desktop)
 
-1. Ensure you have completed the prerequisites from the [Detections and Insights README](../1.%20Microsoft%20Defender%20for%20Office%20365%20Detections%20and%20Insights/README.md).
+1. Ensure you have completed the prerequisites from the [Detections and Insights README](<../1. Microsoft Defender for Office 365 Detections and Insights/README.md>).
 2. Open the `Microsoft Defender for Office 365 Attack Simulation Training Insights.pbit` template.
 3. Enter the required parameters:
    - **Directory (tenant) ID**
@@ -80,7 +80,7 @@ When registering your Entra ID application, use the following permission instead
 
 To enable scheduled refresh in Power BI Service, an **On-premises Data Gateway** is required because this template uses a custom connector.
 
-📘 **See the complete gateway guide:** [Gateway Deployment Guide](../1.%20Microsoft%20Defender%20for%20Office%20365%20Detections%20and%20Insights/GatewayDeployment.md)
+📘 **See the complete gateway guide:** [Gateway Deployment Guide](<../1. Microsoft Defender for Office 365 Detections and Insights/GatewayDeployment.md>)
 
 ## 🔧 Troubleshooting
 
