@@ -40,11 +40,19 @@ For more information, see: [Reports API overview for attack simulation training]
 | `Microsoft Defender for Office 365 Attack Simulation Training Insights.pbit` | Power BI template report |
 | `README.md` | This file |
 
+## 📜 Report Sample
+
+<img src="Images/Screenshot1.jpg" width="1000">
+<img src="Images/Screenshot2.jpg" width="1000">
+<img src="Images/Screenshot3.jpg" width="1000">
+<img src="Images/Screenshot4.jpg" width="1000">
+
 ## 📦 Prerequisites & Setup
 
 > **This template uses the same custom connector as the [Microsoft Defender for Office 365 Detections and Insights](<../1. Microsoft Defender for Office 365 Detections and Insights/README.md>) template.**
 >
 > Follow the complete setup guide in that folder for:
+> - Entra Application
 > - Custom connector installation (`KeyVaultConnector.mez`)
 > - Azure Key Vault configuration
 > - Power BI Desktop configuration
@@ -99,5 +107,5 @@ To enable scheduled refresh in Power BI Service, an **On-premises Data Gateway**
 
 ---
 **Last Updated:** January 2026  
-**Tested with:** Power BI Desktop (January 2026), On-premises Data Gateway (Standard Mode)  
+**Tested with:** Power BI Desktop (January 2026)
 **Author:** [Iustin Irimia/Security CSA] [Daniel Mozes/CxE MDO PM]
